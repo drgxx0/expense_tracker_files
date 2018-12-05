@@ -3,6 +3,7 @@ import React, { useState, useRef } from 'react'
 import './addExpense.css'
 
 const AddExpense = (props) => {
+    
     const [desc, setDesc] = useState('');
     const [sp, setSp] = useState('');
     const [err, setErr] = useState('')
@@ -23,7 +24,11 @@ const AddExpense = (props) => {
             props.addingExpense(desc, -sp)
             setErr('')
             reset()
-            
+            if(props.onCloseModal) {
+                props.onCloseModal(false)
+            } else {
+                return null
+            }  
         } else if (sp < props.total) {
             setErr('Please provide valid information and try again')
             reset()         

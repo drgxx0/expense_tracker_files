@@ -2,6 +2,7 @@
   "name": "expensetracker",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "https://drgxx0.github.io/expense-tracker/",
   "dependencies": {
     "chart.js": "^2.7.3",
     "prop-types": "^15.6.2",

@@ -131,11 +131,7 @@ const Dashboard = (props) => {
                 <Profile user={props.user} />
             </div>
             <div className='add'>
-                <AddExpense 
-                total={total} 
-                index={xp.length} 
-                addingExpense={addingExpense} 
-                />
+                <AddExpense addingExpense={addingExpense} />
             </div>
             <div className='graph'><Chart total={total} xp={xp} /></div>
             <div className='log'>
@@ -153,10 +149,18 @@ const Dashboard = (props) => {
 {modal ?
         <React.Fragment>
             <Modal onCloseModal={handleModal}>
-                {modalRoute === 'expense' ? <AddExpense /> : modalRoute === 'addFund' ? 
-                <AddFund onCloseModal={handleModal} addingExpense={addingExpense} addingFund={addingFund} /> 
+                {modalRoute === 'expense' ? 
+                    <AddExpense 
+                    onCloseModal={handleModal} 
+                    addingExpense={addingExpense} /> : 
+                modalRoute === 'addFund' ? 
+                 <AddFund 
+                 onCloseModal={handleModal} 
+                 addingExpense={addingExpense} 
+                 addingFund={addingFund} /> 
                 : null}
-            </Modal>{jsx}
+            </Modal>
+            {jsx}
         </React.Fragment> 
     : jsx
     }
