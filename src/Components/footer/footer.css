@@ -1,0 +1,18 @@
+.footer {
+    display: flex;
+    justify-content: center;
+    align-self: flex-end;
+    grid-area: foo;
+    border-radius: 5px;
+    height: 40px;
+    background-color: black;
+    padding: 10px;
+    color: white;
+    text-align: center;
+}
+
+@media (max-width: 667px) {
+    .footer {
+        height: 60px;
+    }
+}

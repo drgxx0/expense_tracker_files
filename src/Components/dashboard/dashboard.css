@@ -1,0 +1,148 @@
+.dashboard {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas:
+    "navbar navbar navbar" 
+    "counter counter profile"
+    "log log add"
+    "log log graph"
+    "foo foo foo";
+    justify-content: center;
+}
+
+.counter {
+    grid-area: counter;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "number";
+    border: 1px solid gray;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    background-color: white;
+    align-content: center;
+}
+
+.counter .countBt {
+    display: none;
+}
+
+.profile {
+    grid-area: profile;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+.add {
+    grid-area: add;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+.graph {
+    grid-area: graph;
+    display: flex;
+    justify-content: center;
+}
+
+.log {
+    grid-area: log;
+    border-right: 1px solid gray;
+    margin-bottom: 7px;
+    margin-top: 10px;
+}
+
+.counter .text {
+    grid-area: number;
+    justify-self: center;
+    font-size: 4rem;
+    color: black;
+}
+
+@media (max-width: 657px) {
+    .dashboard {
+        display: grid;
+        width: 100%;
+        height: 100%;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 1fr);
+        grid-template-areas:
+        "navbar" 
+        "counter"
+        "log"
+        "foo";
+        justify-content: center;
+    }
+
+    .counter {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, 1fr);
+        grid-template-areas:
+        "number"
+        "button";
+        grid-area: counter;
+        border: 1px solid gray;
+        border-radius: 5px;
+        width: 100%;
+        height: 100%;
+        padding: 5px;
+        background-color: white;
+    }
+
+    .counter .text {
+        grid-area: number;
+        justify-self: center;
+        font-size: 4rem;
+        color: black;
+    }
+
+    .counter .countBt {
+        display: flex;
+        grid-area: button;
+        justify-self: center;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        margin: 1px 0px;
+        border-radius: 100%;
+        background-color: crimson;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        justify-content: center;
+        align-self: center;
+        align-content: center;
+        font-size: 2.4rem;
+    }
+
+    .profile {
+        display: none;
+    }
+
+    .log {
+        grid-area: log;
+        margin-bottom: 0px;
+        border: 0px;
+    }
+
+    .add {
+        display: none
+    }
+    
+    .graph {
+        display: none;
+    }
+
+    .counter .countBt:hover {
+        background-color: brown;
+    }
+}

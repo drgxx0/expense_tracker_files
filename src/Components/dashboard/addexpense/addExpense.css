@@ -1,0 +1,35 @@
+.addexp {
+    display: grid;
+    justify-content: center;
+    align-self: center;
+}
+
+.addexp h2 {
+    justify-self: center;
+}
+
+.addexp .form {
+    justify-self: center;
+}
+
+.addexp input {
+    width: 200px;
+    height: 40px;
+    border-radius: 10px;
+    padding-left: 2px;
+}
+
+.addBtn {
+    justify-self: center;
+    margin-top: 10px;
+    width: 100px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.addBtn:hover {
+    background-color: beige;
+}

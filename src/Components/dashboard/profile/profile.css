@@ -1,0 +1,51 @@
+.itemPro {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-areas:
+    "user user"
+    "profile logout";
+    justify-content: center;
+    align-content: center;
+}
+
+.user {
+    grid-area: user;
+    font-size: 2rem;
+    justify-self: center;
+    text-transform: capitalize;
+}
+
+.profile .profileBtn {
+    align-self: flex-end;
+    grid-area: profile;
+    width: 150px;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.profile .profileBtn:hover {
+    background-color: beige;
+}
+
+.profile .logoutBtn {
+    align-self: flex-end;
+    grid-area: logout;
+    width: 150px;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.profile .logoutBtn:hover {
+    background-color: beige;
+}

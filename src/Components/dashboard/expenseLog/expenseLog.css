@@ -1,0 +1,46 @@
+.expenseLog {
+    display: grid;
+    width: 100%;
+    height: auto;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 
+    "date detail sp";
+    padding: 5px;
+    border-top: 1px solid rgb(206, 206, 206);
+}
+
+
+.date {
+    display: flex;
+    grid-area: date;
+    justify-content: center;
+    text-align: center;
+    border-right: 0.5px solid gray;
+    align-content: center;
+}
+
+.detail {
+    display: flex;
+    grid-area: detail;
+    align-self: center;
+    justify-content: center;
+    border-right: 0.5px solid gray;
+    align-self: center;
+    height: 70px;
+    text-transform: capitalize;
+}
+
+.sp {
+    display: flex;
+    grid-area: sp;
+    align-self: center;
+    justify-content: center;
+}
+
+.delete {
+    grid-area: sp;
+    justify-self: flex-end;
+    padding: 5px;
+    cursor: pointer;
+}
