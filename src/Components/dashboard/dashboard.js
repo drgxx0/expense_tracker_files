@@ -50,7 +50,6 @@ const Dashboard = ({
         xp={xp}
         currencySymbol={currencySymbol}
         deleteLog={deleteLog}
-        currency={currency}
         date={xp[i].date}
         detail={xp[i].detail}
         sp={xp[i].sp}

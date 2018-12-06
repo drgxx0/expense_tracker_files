@@ -2,7 +2,7 @@ import React from 'react'
 
 import './expenseLog.css'
 
-const ExpenseLog = ({xp, deleteLog, currency, date, detail, sp, id, currencySymbol }) => {
+const ExpenseLog = ({xp, deleteLog, date, detail, sp, id, currencySymbol }) => {
     return (  
         <div className='expenseLog'>
                 <div className='delete' onClick={() => deleteLog(xp, id, -sp)}>X</div>
