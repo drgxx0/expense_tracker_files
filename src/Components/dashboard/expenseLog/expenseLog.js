@@ -2,24 +2,21 @@ import React from 'react'
 
 import './expenseLog.css'
 
-const ExpenseLog = (props) => {
+const ExpenseLog = ({xp, deleteLog, currency, date, detail, sp, id, currencySymbol }) => {
     return (  
         <div className='expenseLog'>
-                <div className='delete' onClick={() => props.deleteLog(props.id, -props.sp)}>X</div>
-                <div className='date'><p>{props.date.day}<br /> {props.date.month}</p></div>
-                <div className='detail'><p>{props.detail}</p></div>
+                <div className='delete' onClick={() => deleteLog(xp, id, -sp)}>X</div>
+                <div className='date'><p>{date.day}<br /> {date.month}</p></div>
+                <div className='detail'><p>{detail}</p></div>
                 <div className='sp'>
-                    <p style={Math.sign(props.sp) === -1 ?
+                    <p style={Math.sign(sp) === -1 ?
                          {color: 'red'} :
-                          Math.sign(props.sp) === 1 ?
+                          Math.sign(sp) === 1 ?
                            {color: 'green'} :
                             null}>
 
-                        {props.currency === 'PEN' ?
-                        'S/.' : null}
-                            {props.sp.toFixed(2)}
-                        {props.currency === 'PEN' ?
-                        null :'$'}
+                        {currencySymbol}
+                            {sp.toFixed(2)}
                     </p>
                  </div> 
         </div>

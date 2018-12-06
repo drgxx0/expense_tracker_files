@@ -8,7 +8,7 @@ const Home = (props) =>  {
         <div className='container'>
             <div className='bg'>
                 <div className='typo'><h1>The most easiest way to track your expense</h1></div>
-                <div className='bt' onClick={() => props.changeRoute('signin')}>Start</div>
+                <div className='bt' onClick={() => props.handleRoute('signin')}>Start</div>
                 <Footer />
             </div>
         </div>

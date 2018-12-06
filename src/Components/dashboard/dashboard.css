@@ -67,15 +67,24 @@
     color: black;
 }
 
+.countBtGraph {
+    display: none;
+}
+
+.phoneLogout {
+    display: none;
+}
+
 @media (max-width: 657px) {
     .dashboard {
         display: grid;
         width: 100%;
         height: 100%;
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(3, 1fr);
+        grid-template-rows: repeat(5, 1fr);
         grid-template-areas:
         "navbar" 
+        "logout"
         "counter"
         "log"
         "foo";
@@ -84,11 +93,12 @@
 
     .counter {
         display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 1fr);
         grid-template-areas:
-        "number"
-        "button";
+        "number number number"
+        "button graph graph"
+        "curren curren curren";
         grid-area: counter;
         border: 1px solid gray;
         border-radius: 5px;
@@ -109,9 +119,8 @@
         display: flex;
         grid-area: button;
         justify-self: center;
-        width: 50px;
-        height: 50px;
         text-align: center;
+        padding: 6px;
         margin: 1px 0px;
         border-radius: 100%;
         background-color: crimson;
@@ -122,6 +131,29 @@
         align-self: center;
         align-content: center;
         font-size: 2.4rem;
+    }
+
+    .counter .countBtGraph {
+        display: flex;
+        grid-area: graph;
+        justify-self: center;
+        text-align: center;
+        padding: 6px;
+        border-radius: 100%;
+        background-color: crimson;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        justify-content: center;
+        align-self: center;
+        align-content: center;
+        font-size: 2.4rem;
+    }
+
+    .changeCurrency {
+        grid-area: curren;
+        justify-self: center;
+        align-self: center;
     }
 
     .profile {
@@ -144,5 +176,17 @@
 
     .counter .countBt:hover {
         background-color: brown;
+    }
+    .phoneLogout {
+        grid-area: logout;
+        border: 1px solid gray; 
+        padding: 5px; cursor: pointer;
+        width: 80px;
+        height: 60px; 
+        text-align: center; 
+        margin: 5px; 
+        border-radius: 5px; 
+        background-color: rgb(0, 0, 0);
+        color: white;
     }
 }

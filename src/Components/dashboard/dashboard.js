@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux';
+
 import NavBar from 'Components/dashboard/navbar/navbar'
 import Modal from 'Components/UI/modal/modal'
 import AddExpense from 'Components/dashboard/addexpense/addExpense'
@@ -6,97 +8,46 @@ import ExpenseLog from 'Components/dashboard/expenseLog/expenseLog'
 import Profile from 'Components/dashboard/profile/profile'
 import Chart from 'Components/dashboard/chart/Chart'
 import AddFund from 'Components/dashboard/addfun/AddFun'
+import ChangeCurrency from 'Components/dashboard/changeCurrency/changeCurrency'
 import Footer from 'Components/footer/footer'
+
+import * as uiActions from 'store/actions/actionUI'
+import * as xpActions from '../../store/actions/actionXP'
 
 import './dashboard.css'
 
 
-const Dashboard = (props) => {
-    const monthArr = ['Ene', 'Feb', 'March', 'April', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-    const [modal, setModal] = useState(false)
-    const [xp, setXp] = useState([])
-    const [modalRoute, setModalRoute] = useState('')
-
-    const [total, setTotal] = useState(0)
-    const [currency, setCurrency] = useState('USD')
+const Dashboard = (
+    {xp, 
+    modal, 
+    modalManage, 
+    modalRoute, 
+    total, 
+    logExpense, 
+    handleError, 
+    error, 
+    addFund, 
+    deleteLog, 
+    users, 
+    currency, 
+    handleCurrency,
+    handleAuth }) => {
+    
+    const [currencySymbol, setCurrencySymbol] = useState('$')
 
     useEffect(() => {
         if(total === 0) {
-            setModal(true)
-            setModalRoute('addFund')
+            modalManage(true, 'addFund')
             } 
     },
     [total])
 
-    const handleModal = (stat, name) => {
-        setModal(stat)
-        setModalRoute(name)
-    }
-
-    const addingExpense = (desc, sp) => {
-        const date = new Date();
-        const day = date.getDate();
-        const month = date.getMonth();
-        const monthLetter = monthArr[month]
-
-        const result = {
-            id: Math.floor(Math.random() * 1000) + 1,
-            date: {
-                day,
-                month: monthLetter
-            },
-            detail: desc,
-            sp: parseInt(sp)
-        }
-        setXp([
-            ...xp,
-            result
-        ])
-        setTotal(total + result.sp)
-    }
-
-    const addingFund = (fund) => {
-        setTotal(total+fund)
-    }
-
-    const deleteLog = (id, sp) => {
-        const filter = xp.filter(logs => {
-            return id !== logs.id
-        })
-        setXp(filter)
-        setTotal(total + sp)
-    }
-
-    const changeCurrency = () => {
-        if (currency === 'USD') {
-            setTotal(total*3.37)
-            setCurrency('PEN')
-            const change = xp.reduce((acc, data) => {
-               const info = {
-                   ...data,
-                   sp: data.sp * 3.37
-               }
-                return acc.concat(info)
-            }, [])
-            setXp(change)
-        } else if (currency === 'PEN') {
-            setTotal(total/3.37)
-            setCurrency('USD')
-            const change = xp.reduce((acc, data) => {
-                const info = {
-                    ...data,
-                    sp: data.sp / 3.37
-                }
-                 return acc.concat(info)
-             }, [])
-             setXp(change)
-        }
-    }
 
     const orderXp = xp.sort((a,b) => b.id - a.id)
     const mapXpLog = orderXp.map((info, i) => {
         return <ExpenseLog 
-        xp={xp} 
+        xp={xp}
+        currencySymbol={currencySymbol} 
         deleteLog={deleteLog} 
         currency={currency} 
         date={xp[i].date} 
@@ -106,34 +57,55 @@ const Dashboard = (props) => {
         key={i} />
     })
 
+    const changeCurrenciesSymbol = (currency) => {
+        switch(currency) {
+            case 'EUR':
+                setCurrencySymbol('€')
+                break;
+            case 'PEN':
+                setCurrencySymbol('S/.')
+                break;
+            case 'USD':
+                setCurrencySymbol('$')
+                break;
+            default:
+                setCurrencySymbol('$')
+        }
+    }
+
     const jsx = (
         <div className='dashboard'>
             <NavBar />
+            <div className='phoneLogout' onClick={() => handleAuth(false)}><p>Log out</p></div>
             <div className='counter'>
                 <div className='text'>
-                    {currency === 'PEN' ? 'S/.' : null}
-                        {total}
-                    {currency === 'PEN' ? null : '$'}
+                    {currencySymbol}
+                        {total.toFixed(2)}
                 </div>
-                <p 
-                style={{width: '237px',textDecoration: 'underline', 
-                color: 'blue', 
-                cursor: 'pointer'}} 
-                onClick={changeCurrency}
-                >
-                    {currency === 'PEN' ? 
-                    'change currency to USD' : 
-                    'change currency to PEN'}
-                </p>
-                <div className='countBt' onClick={() => handleModal(true, 'expense')}>+</div>
+                <div className='countBt' onClick={() => modalManage(true, 'expense')}><i className="fas fa-plus"></i></div>
+                <div className='countBtGraph' onClick={() => modalManage(true, 'graph')}><i className="fas fa-chart-line"></i></div>
+                <div className='changeCurrency'>
+                    <ChangeCurrency 
+                    changeCurrenciesSymbol={changeCurrenciesSymbol} 
+                    xp={xp} total={total} 
+                    currency={currency} 
+                    handleCurrency={handleCurrency} 
+                    />
+                </div>
             </div>
             <div className='profile'>
-                <Profile user={props.user} />
+                <Profile handleAuth={handleAuth} user={users} />
             </div>
             <div className='add'>
-                <AddExpense addingExpense={addingExpense} />
+                <AddExpense 
+                    total={total} 
+                    error={error} 
+                    handleError={handleError} 
+                    logExpense={logExpense}
+                    currencySymbol={currencySymbol} 
+                />
             </div>
-            <div className='graph'><Chart total={total} xp={xp} /></div>
+            <div className='graph'><Chart xp={xp} /></div>
             <div className='log'>
                 {xp.length >= 1 ?
                      mapXpLog :
@@ -148,17 +120,26 @@ const Dashboard = (props) => {
     <React.Fragment>
 {modal ?
         <React.Fragment>
-            <Modal onCloseModal={handleModal}>
+            <Modal modalManage={modalManage} handleError={handleError}>
                 {modalRoute === 'expense' ? 
                     <AddExpense 
-                    onCloseModal={handleModal} 
-                    addingExpense={addingExpense} /> : 
+                    modalManage={modalManage} 
+                    logExpense={logExpense}
+                    handleError={handleError}
+                    error={error}
+                    total={total}
+                    currencySymbol={currencySymbol}
+                    xpId={xp.id} /> : 
                 modalRoute === 'addFund' ? 
-                 <AddFund 
-                 onCloseModal={handleModal} 
-                 addingExpense={addingExpense} 
-                 addingFund={addingFund} /> 
-                : null}
+                 <AddFund
+                 modalManage={modalManage} 
+                 logExpense={logExpense} 
+                 addFund={addFund}
+                 handleError={handleError}
+                 error={error}
+                 currencySymbol={currencySymbol} /> 
+                : modalRoute === 'graph' ?
+                <Chart xp={xp} /> : null}
             </Modal>
             {jsx}
         </React.Fragment> 
@@ -168,5 +149,28 @@ const Dashboard = (props) => {
     )
 }
 
+const mapStateToProps = state => {
+    return {
+        modal: state.ui.modal,
+        modalRoute: state.ui.modalRoute,
+        total: state.xp.total,
+        error: state.ui.error,
+        xp: state.xp.xp,
+        currency: state.xp.currency,
+        auth: state.auth.auth
+    }
+}
 
-export default Dashboard
+const mapDispatchToProps = dispatch => {
+    return {
+        modalManage: (stat, route) => dispatch(uiActions.modalManage(stat, route)),
+        logExpense: (desc, sp, id) =>dispatch(xpActions.logExpense(desc, sp, id)),
+        handleError: (stat, message) => dispatch(uiActions.handleError(stat, message)),
+        addFund: (fund) => dispatch(xpActions.addFund(fund)),
+        deleteLog: (xp, id, sp) => dispatch(xpActions.deleteLog(xp ,id, sp)),
+        handleCurrency: (nowCu, nextCu, total, xp) => dispatch(xpActions.handleCurrency(nowCu, nextCu, total, xp))
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

@@ -3,12 +3,34 @@ import {Line} from 'react-chartjs-2';
 
 //import './chart.css'
 
-const Chart = (props) => {
+const Chart = ({xp}) => {
+  
+  const funx = (xp) => {
+    const map = xp.map(item => {
+      if(Math.sign(item.sp) === -1) {
+        return -item.sp
+      } else {
+        return null
+      }
+    })
 
+    const redu = map.reduce((a, b) => a + b, 0);
+    
+    return redu
+  }
+
+    const number = funx(xp)
+    const date = new Date().getDate()
+    const array = new Array(date-1)
+    const newArray = array.fill(0,0,date)
+
+    const mix = [
+      ...newArray,
+      number
+    ]
+    
     const data = {
-        labels: ['01', '02', '03', '04', '05', '06', '07', '08', '09', 
-        '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', 
-        '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'],
+        labels: [...Array(30).keys()],
         datasets: [
           {
             label: 'Your expenses',
@@ -29,7 +51,7 @@ const Chart = (props) => {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: []
+            data: mix
           }
         ]
       };

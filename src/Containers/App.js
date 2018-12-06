@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { connect } from 'react-redux'
+
 import Loading from 'Components/UI/loading/loading'
 import Home from 'Components/Home/home'
 import SignIn from 'Components/signin/signin'
 import Dashboard from 'Components/dashboard/dashboard'
 
+import * as uiActions from '../store/actions/actionUI'
+import * as authActions from '../store/actions/actionAuth'
 
-const App = () =>  {
-    const [route, setRoute] = useState();
-    const [auth, setAuth] = useState(false);
-    const [user, setUser] = useState();
-    const [loading, setLoading] = useState(false);
 
-    const changeRoute = (route) => {
+const App = ({users, route, auth, handleRoute, handleAuth, handleError, error, loading}) =>  {
+    /* const [route, setRoute] = useState();
+    const [auth, setAuth] = useState(true);
+    const [user, setUser] = useState(); */
+
+    /* const changeRoute = (route) => {
         setRoute(route)
     }
 
@@ -29,19 +33,42 @@ const App = () =>  {
             setLoading(false)
             await setUser(data)
             await setAuth(true)
-    }
-
-
+    } */
 
     return (
     <React.Fragment>
         {loading ? <Loading /> : 
-        auth ? <Dashboard 
-        user={user} /> : 
-        route === 'signin' ? <SignIn changeRoute={changeRoute} onAuthorization={onAuthorization} /> : 
-        <Home changeRoute={changeRoute} />}
+        auth ? <Dashboard
+        handleAuth={handleAuth} 
+        users={users} /> : 
+        route === 'signin' ? 
+        <SignIn handleError={handleError} 
+        users={users} 
+        handleRoute={handleRoute} 
+        handleAuth={handleAuth}
+        error={error}
+        /> : 
+        <Home handleRoute={handleRoute} />}
     </React.Fragment>
     );
 }
 
-export default App
+const mapStateToProps = state => {
+    return {
+        users: state.auth.users,
+        route: state.ui.route,
+        auth: state.auth.auth,
+        error: state.ui.error,
+        loading: state.ui.loading
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        handleRoute: (route) => dispatch(uiActions.handleRoute(route)),
+        handleAuth: (stat) => dispatch(authActions.handleAuth(stat)),
+        handleError: (stat, message) => dispatch(uiActions.handleError(stat, message))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
