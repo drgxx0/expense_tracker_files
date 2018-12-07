@@ -2,7 +2,7 @@ import * as actionTypes from 'store/actions/actionTypes'
 
 const initialState = {
     xp: [],
-    total: 0,
+    total: 200,
     currency: 'USD'
 }
 

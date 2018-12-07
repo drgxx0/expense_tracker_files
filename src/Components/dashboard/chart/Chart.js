@@ -21,8 +21,8 @@ const Chart = ({xp}) => {
 
     const number = funx(xp)
     const date = new Date().getDate()
-    const array = new Array(date-1)
-    const newArray = array.fill(0,0,date)
+    const array = new Array(date)
+    const newArray = array.fill(0,0,date-1)
 
     const mix = [
       ...newArray,
